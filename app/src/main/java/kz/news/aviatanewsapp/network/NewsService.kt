@@ -9,32 +9,32 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
-import kotlin.math.log
 
 const val BASE_URL = "https://newsapi.org/v2/"
 const val API_KEY = "e65ee0938a2a43ebb15923b48faed18d"
 
-interface NewsService {
-    @GET("everything?q=kazakhstan&apiKey=e65ee0938a2a43ebb15923b48faed18d")
-    suspend fun getEverything(): Deferred<NewsResponse>
+interface NewService {
+    @GET("top-headlines?q=apple&apiKey=$API_KEY")
+    fun getTopHeadlines(): Deferred<NewsResponse>
+
+    @GET("everything?q=kazakhstan&apiKey=$API_KEY")
+    fun getEverything(): Deferred<NewsResponse>
 }
 
-private val moshi = Moshi.Builder()
-    .add(KotlinJsonAdapterFactory())
-    .build()
-
-object Network{
-    private val logging = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC)
+object Network {
+    private val moshi = Moshi.Builder()
+        .add(KotlinJsonAdapterFactory())
+        .build()
+    private val logging = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
     private val client = OkHttpClient.Builder()
         .addInterceptor(logging)
         .build()
-
     private val retrofit = Retrofit.Builder()
-        .baseUrl(BASE_URL)
-//        .addConverterFactory(MoshiConverterFactory.create(moshi))
+        .addConverterFactory(MoshiConverterFactory.create(moshi))
         .addCallAdapterFactory(CoroutineCallAdapterFactory())
+        .baseUrl(BASE_URL)
         .client(client)
         .build()
 
-    val newsService = retrofit.create(NewsService::class.java)
+    val newsService = retrofit.create(NewService::class.java)
 }

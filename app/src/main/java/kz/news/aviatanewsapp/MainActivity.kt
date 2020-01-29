@@ -7,10 +7,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kz.news.aviatanewsapp.network.Network
-import kz.news.aviatanewsapp.network.NewsResponse
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         val mainScope = CoroutineScope(job + Dispatchers.Main)
 
         mainScope.launch {
-            val deferred = Network.newsService.getEverything().await()
+            val deferred = Network.newsService.getTopHeadlines().await()
             println("MY RESPONSE: $deferred")
         }
     }
