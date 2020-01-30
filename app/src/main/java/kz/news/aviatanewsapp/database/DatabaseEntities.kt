@@ -7,15 +7,15 @@ import kz.news.aviatanewsapp.domain.News
 @Entity
 data class DatabaseNews(
     @PrimaryKey
-    val id: Long = 0,
+    val url: String,
     val name: String?,
     val author: String?,
     val title: String?,
     val description: String?,
-    val url: String?,
     val urlToImage: String?,
     val publishedAt: String?,
-    val content: String?
+    val content: String?,
+    var toReadLater: Boolean = false
 )
 
 fun List<DatabaseNews>.asDomainModel(): List<News> {
@@ -28,7 +28,8 @@ fun List<DatabaseNews>.asDomainModel(): List<News> {
             url = it.url,
             urlToImage = it.urlToImage,
             publishedAt = it.publishedAt,
-            content = it.content
+            content = it.content,
+            toReadLater = it.toReadLater
         )
     }
 }

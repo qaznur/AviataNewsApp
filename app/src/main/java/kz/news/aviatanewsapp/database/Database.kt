@@ -18,7 +18,7 @@ fun getInstance(context: Context): NewsDatabase {
             instance = Room.databaseBuilder(
                 context.applicationContext,
                 NewsDatabase::class.java,
-                "news"
+                "news.db"
             ).build()
         }
     }

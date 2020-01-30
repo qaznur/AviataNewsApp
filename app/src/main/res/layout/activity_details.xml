@@ -7,13 +7,23 @@
 
     <data>
         <variable
-                name="news"
-                type="kz.news.aviatanewsapp.domain.News"/>
+                name="viewModel"
+                type="kz.news.aviatanewsapp.viewmodels.DetailsViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="0dp"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
 
         <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/left_line"
@@ -34,13 +44,14 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:scaleType="centerCrop"
-                app:imageUrl="@{news.urlToImage}"
+                app:imageUrl="@{viewModel.news.urlToImage}"
+                android:layout_marginTop="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintDimensionRatio="h, 16:9"
-                tools:srcCompat="@tools:sample/backgrounds/scenic[19]"
-                app:layout_constraintHorizontal_bias="0.0" android:layout_marginTop="16dp"
-                app:layout_constraintTop_toBottomOf="@+id/tv_title"/>
+                app:layout_constraintTop_toBottomOf="@+id/tv_title"
+                tools:srcCompat="@tools:sample/backgrounds/scenic[19]"/>
 
         <TextView
                 android:id="@+id/tv_title"
@@ -48,11 +59,11 @@
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textColor="@color/text_black"
-                android:text="@{news.title}"
+                android:text="@{viewModel.news.title}"
                 android:layout_marginTop="8dp"
                 app:layout_constraintStart_toStartOf="@+id/left_line"
                 app:layout_constraintEnd_toEndOf="@id/right_line"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/toolbar"
                 tools:text="Businesses Suspend Chinese Operations Amid Coronavirus Fears"/>
 
         <TextView
@@ -60,7 +71,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
-                android:text="@{news.description}"
+                android:text="@{viewModel.news.description}"
                 android:textColor="@color/text_black"
                 android:layout_marginTop="8dp"
                 app:layout_constraintTop_toBottomOf="@+id/image"
@@ -75,7 +86,7 @@
                 android:layout_marginTop="8dp"
                 android:textColor="@color/text_light"
                 android:textSize="14sp"
-                android:text="@{news.content}"
+                android:text="@{viewModel.news.content}"
                 app:layout_constraintTop_toBottomOf="@+id/tv_description"
                 app:layout_constraintEnd_toStartOf="@+id/right_line"
                 app:layout_constraintStart_toStartOf="@id/left_line"
@@ -122,7 +133,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:id="@+id/author"
-                android:text="@{news.author}"
+                android:text="@{viewModel.news.author}"
                 android:layout_marginStart="8dp"
                 app:layout_constraintStart_toEndOf="@+id/tv_author"
                 app:layout_constraintBaseline_toBaselineOf="@+id/tv_author"
@@ -133,7 +144,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
-                android:text="@{news.publishedAt}"
+                android:text="@{viewModel.news.publishedAt}"
                 android:layout_marginStart="8dp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/tv_publishedAt"
                 app:layout_constraintStart_toEndOf="@+id/tv_publishedAt"
@@ -144,7 +155,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
-                android:text="@{news.name}"
+                android:text="@{viewModel.news.name}"
                 android:layout_marginStart="8dp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/tv_source"
                 app:layout_constraintStart_toEndOf="@+id/tv_source"

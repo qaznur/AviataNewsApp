@@ -4,18 +4,18 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import kz.news.aviatanewsapp.R
+import kz.news.aviatanewsapp.adapters.ViewPagerAdapter
 import kz.news.aviatanewsapp.databinding.ActivityMainBinding
 import kz.news.aviatanewsapp.ui.fragments.DetailsFragment
-import kz.news.aviatanewsapp.ui.fragments.NewsListFragment
+import kz.news.aviatanewsapp.ui.fragments.TopHeadlinesFragment
 
-const val LAYOUT_ACTIVITY = R.layout.activity_main
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, LAYOUT_ACTIVITY)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         setSupportActionBar(binding.toolbar)
         setupViewPager()
@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupViewPager() {
         val adapter = ViewPagerAdapter(supportFragmentManager)
-        adapter.addFragment(NewsListFragment(), "Top")
+        adapter.addFragment(TopHeadlinesFragment(), "Top")
         adapter.addFragment(DetailsFragment(), "All")
         binding.viewPager.adapter = adapter
     }

@@ -13,7 +13,7 @@ data class Article(
     val author: String?,
     val title: String?,
     val description: String?,
-    val url: String?,
+    val url: String,
     val urlToImage: String?,
     val publishedAt: String?,
     val content: String?
@@ -24,7 +24,7 @@ data class Source(
     val name: String?
 )
 
-fun NewsResponse.asDatabaseNews(): List<DatabaseNews> {
+fun NewsResponse.asDatabaseNews(): Array<DatabaseNews> {
     return articles.map {
         DatabaseNews(
             name = it.source?.name,
@@ -36,5 +36,5 @@ fun NewsResponse.asDatabaseNews(): List<DatabaseNews> {
             publishedAt = it.publishedAt,
             content = it.content
         )
-    }
+    }.toTypedArray()
 }

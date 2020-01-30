@@ -1,4 +1,4 @@
-package kz.news.aviatanewsapp.ui
+package kz.news.aviatanewsapp.adapters
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import kotlinx.coroutines.launch
 import kz.news.aviatanewsapp.database.getInstance
+import kz.news.aviatanewsapp.domain.News
 import kz.news.aviatanewsapp.repository.MainActivityRepository
 
 class MainActivityViewModel(application: Application) : BaseViewModel(application) {
@@ -17,6 +18,13 @@ class MainActivityViewModel(application: Application) : BaseViewModel(applicatio
     init {
         mainScope.launch {
             repository.refreshNews()
+        }
+    }
+
+    fun saveForLateRead(news: News) {
+        mainScope.launch {
+            news.toReadLater = !news.toReadLater
+            repository.updateNews(news)
         }
     }
 
