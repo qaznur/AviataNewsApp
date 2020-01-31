@@ -21,9 +21,11 @@ class MainActivityRepository(private val database: NewsDatabase) {
     suspend fun refreshNews() {
         Log.d("#####", "repository refreshNews")
         withContext(Dispatchers.IO) {
-            val news = Network.newsService.getTopHeadlines().await()
-            val size = database.newsDao.insertMany(*news.asDatabaseNews())
-            Log.d("#####", "insert size: $size")
+//            val news = Network.newsService.getEverything().await()
+//            val news2 = Network.newsService.getEverythingByPage(1, 15).await()
+//            val size = database.newsDao.insertMany(*news.asDatabaseNews())
+//            Log.d("#####", "insert1 size: ${news.asDatabaseNews().size}")
+//            Log.d("#####", "insert2 size: ${news2.asDatabaseNews().size}")
         }
     }
 

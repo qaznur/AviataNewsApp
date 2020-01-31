@@ -6,19 +6,32 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.Deferred
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Call
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 const val BASE_URL = "https://newsapi.org/v2/"
 const val API_KEY = "e65ee0938a2a43ebb15923b48faed18d"
 
 interface NewService {
-    @GET("top-headlines?q=apple&apiKey=$API_KEY")
-    fun getTopHeadlines(): Deferred<NewsResponse>
+//    @GET("top-headlines?q=apple&apiKey=$API_KEY")
+//    fun getTopHeadlines(): Deferred<NewsResponse>
+//
+//    @GET("everything?q=bitcoin&apiKey=$API_KEY")
+//    fun getEverything(): Deferred<NewsResponse>
 
-    @GET("everything?q=kazakhstan&apiKey=$API_KEY")
-    fun getEverything(): Deferred<NewsResponse>
+    @GET("everything?q=bitcoin&apiKey=$API_KEY")
+    fun getEverythingByPage(@Query("page") page: Int,
+                            @Query("pageSize") pageSize: Int)
+            : Deferred<NewsResponse>
+
+    @GET("top-headlines?q=bitcoin&apiKey=$API_KEY")
+    fun getgetTopHeadlinesByPage(@Query("page") page: Int,
+                            @Query("pageSize") pageSize: Int)
+            : Deferred<NewsResponse>
 }
 
 object Network {

@@ -6,7 +6,7 @@ import androidx.databinding.DataBindingUtil
 import kz.news.aviatanewsapp.R
 import kz.news.aviatanewsapp.adapters.ViewPagerAdapter
 import kz.news.aviatanewsapp.databinding.ActivityMainBinding
-import kz.news.aviatanewsapp.ui.fragments.DetailsFragment
+import kz.news.aviatanewsapp.ui.fragments.EverythingFragment
 import kz.news.aviatanewsapp.ui.fragments.TopHeadlinesFragment
 
 class MainActivity : AppCompatActivity() {
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     private fun setupViewPager() {
         val adapter = ViewPagerAdapter(supportFragmentManager)
         adapter.addFragment(TopHeadlinesFragment(), "Top")
-        adapter.addFragment(DetailsFragment(), "All")
+        adapter.addFragment(EverythingFragment(), "All")
         binding.viewPager.adapter = adapter
     }
 }
