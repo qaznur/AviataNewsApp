@@ -9,8 +9,6 @@ import kz.news.aviatanewsapp.database.NewsDatabase
 import kz.news.aviatanewsapp.database.asDomainModel
 import kz.news.aviatanewsapp.domain.News
 import kz.news.aviatanewsapp.domain.asDatabaseNews
-import kz.news.aviatanewsapp.network.Network
-import kz.news.aviatanewsapp.network.asDatabaseNews
 
 class MainActivityRepository(private val database: NewsDatabase) {
 

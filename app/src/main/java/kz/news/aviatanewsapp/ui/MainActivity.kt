@@ -20,14 +20,6 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         setupViewPager()
         binding.tabLayout.setupWithViewPager(binding.viewPager)
-
-//        val job = Job()
-//        val mainScope = CoroutineScope(job + Dispatchers.Main)
-//
-//        mainScope.launch {
-//            val deferred = Network.newsService.getTopHeadlines().await()
-//            println("MY RESPONSE: $deferred")
-//        }
     }
 
     private fun setupViewPager() {

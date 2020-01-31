@@ -20,19 +20,16 @@ class PagingNewsListAdapter(private val clickListener: ClickListener) :
     }
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
-//        val newsItem = getItem(position)
-//        holder.bind(newsItem, clickListener)
-
-//        getItem(position)?.let {
-//            holder.bind(it, clickListener)
-//        }
+        getItem(position)?.let {
+            holder.bind(it, clickListener)
+        }
     }
 
 
     class NewsViewHolder(private val binding: ListitemNewsBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(news: News, clickListener: TopHeadlinesFragment.ClickListenerImpl) {
+        fun bind(news: News, clickListener: ClickListener) {
             binding.news = news
             binding.clickListener = clickListener
             binding.executePendingBindings()

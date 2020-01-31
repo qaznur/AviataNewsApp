@@ -8,11 +8,13 @@ import kz.news.aviatanewsapp.R
 
 
 @BindingAdapter("imageUrl")
-fun loadImage(imageView: ImageView, url: String) {
+fun loadImage(imageView: ImageView, url: String?) {
     Log.d("#####", "imageUrl")
-    Glide.with(imageView.context)
-        .load(url)
-        .into(imageView)
+    url?.let{
+        Glide.with(imageView.context)
+            .load(url)
+            .into(imageView)
+    }
 }
 
 @BindingAdapter("srcLaterRead")
