@@ -13,6 +13,7 @@
         <variable
                 name="clickListener"
                 type="kz.news.aviatanewsapp.adapters.PagingNewsListAdapter.ClickListener"/>
+
     </data>
 
     <androidx.cardview.widget.CardView
@@ -87,20 +88,13 @@
                     android:id="@+id/late_read"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcLaterRead="@{news.toReadLater}"
+                    app:news="@{news}"
+                    app:toReadLater="@{news.toReadLater}"
+                    android:tint="@color/colorAccent"
                     android:onClick="@{() -> clickListener.onMarked(news)}"
                     android:layout_marginTop="14dp"
                     app:layout_constraintEnd_toStartOf="@+id/right_line"
                     app:layout_constraintTop_toBottomOf="@+id/image"/>
-
-            <!--<View-->
-                    <!--android:id="@+id/clickableOverlay"-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="0dp"-->
-                    <!--app:layout_constraintEnd_toEndOf="parent"-->
-                    <!--app:layout_constraintStart_toStartOf="parent"-->
-                    <!--app:layout_constraintTop_toTopOf="parent"-->
-                    <!--app:layout_constraintBottom_toBottomOf="parent"/>-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

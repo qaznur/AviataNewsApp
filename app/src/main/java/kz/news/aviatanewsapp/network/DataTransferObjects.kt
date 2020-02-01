@@ -1,7 +1,5 @@
 package kz.news.aviatanewsapp.network
 
-import androidx.lifecycle.Transformations.map
-import kz.news.aviatanewsapp.database.DatabaseNews
 import kz.news.aviatanewsapp.domain.News
 
 data class NewsResponse(
@@ -26,32 +24,17 @@ data class Source(
     val name: String?
 )
 
-fun NewsResponse.asDatabaseNews(): Array<DatabaseNews> {
-    return articles.map {
-        DatabaseNews(
-            name = it.source?.name,
-            author = it.author,
-            title = it.title,
-            description = it.description,
-            url = it.url,
-            urlToImage = it.urlToImage,
-            publishedAt = it.publishedAt,
-            content = it.content
-        )
-    }.toTypedArray()
-}
-
 fun NewsResponse.asDomainModel(): List<News> {
     return articles.map {
         News(
-            name = it.source?.name,
-            author = it.author,
-            title = it.title,
-            description = it.description,
-            url = it.url,
-            urlToImage = it.urlToImage,
-            publishedAt = it.publishedAt,
-            content = it.content
+            _name = it.source?.name,
+            _author = it.author,
+            _title = it.title,
+            _description = it.description,
+            _url = it.url,
+            _urlToImage = it.urlToImage,
+            _publishedAt = it.publishedAt,
+            _content = it.content
         )
     }
 }

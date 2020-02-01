@@ -1,9 +1,12 @@
 <resources>
-    <string name="app_name">AviataNewsApp</string>
+    <string name="app_name">News</string>
 
-    <string name="fragment1">Fragment 1</string>
-    <string name="fragment2">Fragment 2</string>
     <string name="author">Author:</string>
     <string name="published_at">Published at:</string>
     <string name="source">Source:</string>
+
+    <string name="top">Top headlines</string>
+    <string name="all">Everything</string>
+
+    <string name="read_later">Read later</string>
 </resources>

@@ -1,6 +1,9 @@
 package kz.news.aviatanewsapp.ui
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import kz.news.aviatanewsapp.R
@@ -24,8 +27,22 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupViewPager() {
         val adapter = ViewPagerAdapter(supportFragmentManager)
-        adapter.addFragment(TopHeadlinesFragment(), "Top")
-        adapter.addFragment(EverythingFragment(), "All")
+        adapter.addFragment(TopHeadlinesFragment(), getString(R.string.top))
+        adapter.addFragment(EverythingFragment(), getString(R.string.all))
         binding.viewPager.adapter = adapter
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.read_later) {
+            val intent = Intent(this, ReadLaterActivity::class.java)
+            startActivity(intent)
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

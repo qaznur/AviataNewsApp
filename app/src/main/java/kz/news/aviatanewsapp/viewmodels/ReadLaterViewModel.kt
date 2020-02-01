@@ -1,20 +1,20 @@
 package kz.news.aviatanewsapp.viewmodels
 
 import android.app.Application
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import kz.news.aviatanewsapp.domain.News
 
-class DetailsViewModel(
-    application: Application,
-    val news: News
-) : BaseViewModel(application) {
+class ReadLaterViewModel(application: Application) : BaseViewModel(application) {
 
-    class Factory(private val app: Application, private val news: News) : ViewModelProvider.Factory {
+    val readLaterNews: LiveData<List<News>> = repository.readLaterNews
+
+    class Factory(private val app: Application) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(DetailsViewModel::class.java)) {
+            if (modelClass.isAssignableFrom(ReadLaterViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST")
-                return DetailsViewModel(app, news) as T
+                return ReadLaterViewModel(app) as T
             }
             throw IllegalArgumentException("Unable to construct viewmodel")
         }

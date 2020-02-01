@@ -1,19 +1,23 @@
 package kz.news.aviatanewsapp.adapters
 
+import android.content.Context
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import kz.news.aviatanewsapp.R
 import kz.news.aviatanewsapp.databinding.ListitemNewsBinding
 import kz.news.aviatanewsapp.domain.News
-import kz.news.aviatanewsapp.ui.fragments.TopHeadlinesFragment
+import kz.news.aviatanewsapp.ui.DetailsActivity
+import kz.news.aviatanewsapp.viewmodels.BaseViewModel
+
 
 class PagingNewsListAdapter(private val clickListener: ClickListener) :
-    PagedListAdapter<News, PagingNewsListAdapter.NewsViewHolder>(NewsDiffCallback()) {
+    ListAdapter<News, PagingNewsListAdapter.NewsViewHolder>(NewsDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
         return NewsViewHolder.from(parent)
@@ -23,6 +27,11 @@ class PagingNewsListAdapter(private val clickListener: ClickListener) :
         getItem(position)?.let {
             holder.bind(it, clickListener)
         }
+    }
+
+    override fun submitList(list: List<News>?) {
+        Log.d("#####", "submitList: $list")
+        super.submitList(if (list != null) ArrayList(list) else null)
     }
 
 
@@ -61,6 +70,19 @@ class PagingNewsListAdapter(private val clickListener: ClickListener) :
     interface ClickListener{
         fun onMarked(news: News)
         fun onClicked(news: News)
+    }
+
+    class ClickListenerImpl(private val context: Context?, private val viewModel: BaseViewModel) : ClickListener {
+
+        override fun onMarked(news: News) {
+            viewModel.saveForLateRead(news)
+        }
+
+        override fun onClicked(news: News) {
+            val intent = Intent(context, DetailsActivity::class.java)
+            intent.putExtra("news", news)
+            context?.startActivity(intent)
+        }
     }
 }
 

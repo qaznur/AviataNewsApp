@@ -1,22 +1,20 @@
 package kz.news.aviatanewsapp.ui.fragments
 
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-
+import androidx.recyclerview.widget.LinearLayoutManager
 import kz.news.aviatanewsapp.R
-import kz.news.aviatanewsapp.databinding.FragmentTopHeadlinesBinding
-import kz.news.aviatanewsapp.domain.News
 import kz.news.aviatanewsapp.adapters.PagingNewsListAdapter
-import kz.news.aviatanewsapp.ui.DetailsActivity
+import kz.news.aviatanewsapp.databinding.FragmentTopHeadlinesBinding
+import kz.news.aviatanewsapp.utils.onScrolledToEnd
 import kz.news.aviatanewsapp.viewmodels.TopHeadlinesViewModel
 
 class TopHeadlinesFragment : Fragment() {
@@ -32,27 +30,30 @@ class TopHeadlinesFragment : Fragment() {
         viewModel = ViewModelProviders.of(this, TopHeadlinesViewModel.Factory(activity!!.application))
             .get(TopHeadlinesViewModel::class.java)
 
-        viewModel.pagedList.observe(this, Observer { news ->
-            Log.d("#####", "tops $news")
-            listAdapter.submitList(news)
+        viewModel.topHeadlines.observe(this, Observer { news ->
+            news?.let {
+                listAdapter.submitList(news)
+            }
         })
 
-        listAdapter = PagingNewsListAdapter(ClickListenerImpl())
+        listAdapter = PagingNewsListAdapter(PagingNewsListAdapter.ClickListenerImpl(context, viewModel))
+        val layoutManager = LinearLayoutManager(context)
         binding.newsList.adapter = listAdapter
+        binding.newsList.layoutManager = layoutManager
+        binding.newsList.onScrolledToEnd(layoutManager) {
+            viewModel.loadNextIfAvailable()
+        }
         return binding.root
     }
 
-    inner class ClickListenerImpl: PagingNewsListAdapter.ClickListener {
+    override fun onStart() {
+        super.onStart()
+        Log.d("#####", "top onStart")
+        viewModel.checkForChanges()
+    }
 
-        override fun onMarked(news: News) {
-            viewModel.saveForLateRead(news)
-        }
-
-        override fun onClicked(news: News) {
-            Log.d("#####", "onClicked")
-            val intent = Intent(context, DetailsActivity::class.java)
-            intent.putExtra("news", news)
-            context?.startActivity(intent)
-        }
+    override fun onStop() {
+        super.onStop()
+        Log.d("#####", "top onStop")
     }
 }

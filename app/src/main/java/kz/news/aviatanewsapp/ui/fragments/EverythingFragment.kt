@@ -11,12 +11,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kz.news.aviatanewsapp.R
 import kz.news.aviatanewsapp.adapters.PagingNewsListAdapter
 import kz.news.aviatanewsapp.databinding.FragmentEverythingBinding
 import kz.news.aviatanewsapp.domain.News
 import kz.news.aviatanewsapp.ui.DetailsActivity
+import kz.news.aviatanewsapp.utils.onScrolledToEnd
 import kz.news.aviatanewsapp.viewmodels.EverythingViewModel
 
 class EverythingFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
@@ -32,34 +34,35 @@ class EverythingFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener {
             .get(EverythingViewModel::class.java)
 
         binding.refreshLayout.setOnRefreshListener(this)
-        viewModel.pagedList.observe(this, Observer { news ->
-            Log.d("######", "everything $news")
-            listAdapter.submitList(news)
+        viewModel.everything.observe(this, Observer { news ->
+            news?.let {
+                listAdapter.submitList(news)
+            }
             binding.refreshLayout.isRefreshing = false
         })
 
-        listAdapter = PagingNewsListAdapter(ClickListenerImpl())
+        listAdapter = PagingNewsListAdapter(PagingNewsListAdapter.ClickListenerImpl(context, viewModel))
+        val layoutManager = LinearLayoutManager(context)
         binding.newsList.adapter = listAdapter
+        binding.newsList.layoutManager = layoutManager
+        binding.newsList.onScrolledToEnd(layoutManager) {
+            viewModel.loadNextIfAvailable()
+        }
         return binding.root
     }
 
     override fun onRefresh() {
-        Log.d("######", "onRefresh")
         viewModel.onSwipeRefreshed()
     }
 
+    override fun onStart() {
+        super.onStart()
+        Log.d("#####", "all onStart")
+        viewModel.checkForChanges()
+    }
 
-    inner class ClickListenerImpl : PagingNewsListAdapter.ClickListener {
-
-        override fun onMarked(news: News) {
-            viewModel.saveForLateRead(news)
-        }
-
-        override fun onClicked(news: News) {
-            Log.d("#####", "onClicked")
-            val intent = Intent(context, DetailsActivity::class.java)
-            intent.putExtra("news", news)
-            context?.startActivity(intent)
-        }
+    override fun onStop() {
+        super.onStop()
+        Log.d("#####", "all onStop")
     }
 }
